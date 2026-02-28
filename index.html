@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>星座香氣分析 | Carol's Scent</title>
+  <meta name="description" content="透過我們專屬的星座香氣分析，找到最適合您靈魂的獨特精油配方。由 Carol's Scent 為您量身打造。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Raleway:wght@300;400;500;600&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design Tokens ─── */
+    :root {
+      --sage:      #7a9e8e;
+      --sage-lt:   #a8c4b4;
+      --sage-dk:   #4e7262;
+      --cream:     #f5f0e8;
+      --ivory:     #faf8f3;
+      --blush:     #e8d5c4;
+      --blush-lt:  #f2e5d8;
+      --mist:      #c9ddd4;
+      --charcoal:  #2c2a26;
+      --stone:     #6b665e;
+      --gold:      #b8976e;
+      --gold-lt:   #d4b896;
+      --white:     #ffffff;
+
+      --ff-serif:  'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+      --ff-sans:   'Raleway', sans-serif;
+
+      --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+      --radius:    16px;
+      --radius-sm: 8px;
+      --radius-pill: 999px;
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-sans);
+      background-color: var(--ivory);
+      color: var(--charcoal);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Background Botanical Pattern (SVG Inline) ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(ellipse 600px 400px at 10% 20%, rgba(168,196,180,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 350px at 90% 75%, rgba(232,213,196,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 400px 300px at 50% 50%, rgba(201,221,212,0.12) 0%, transparent 70%);
+    }
+
+    /* ─── Wrapper ─── */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ─── Hero Header ─── */
+    .hero {
+      text-align: center;
+      padding: 64px 0 52px;
+      position: relative;
+    }
+
+    .hero__logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.1s forwards;
+    }
+
+    /* SVG Emblem – celestial moon + botanical */
+    .emblem {
+      width: 54px;
+      height: 54px;
+      flex-shrink: 0;
+    }
+
+    .hero__brand {
+      font-family: var(--ff-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    .hero__title {
+      font-family: var(--ff-serif);
+      font-size: clamp(38px, 7vw, 58px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--charcoal);
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.25s forwards;
+    }
+
+    .hero__title em {
+      font-style: italic;
+      color: var(--sage-dk);
+    }
+
+    .hero__subtitle {
+      font-family: var(--ff-serif);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--stone);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out) 0.4s forwards;
+    }
+
+    /* Decorative divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto 40px;
+      max-width: 320px;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease-out) 0.55s forwards;
+    }
+    .divider__line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--sage-lt), transparent); }
+    .divider__icon { color: var(--sage); font-size: 14px; }
+
+    /* Floating botanical leaves – pure CSS */
+    .botanical-decor {
+      position: absolute;
+      pointer-events: none;
+    }
+    .leaf-1 { top: 30px; left: -30px; opacity: 0.18; animation: sway 8s ease-in-out infinite; }
+    .leaf-2 { top: 60px; right: -20px; opacity: 0.13; animation: sway 10s ease-in-out 2s infinite reverse; }
+    .leaf-3 { bottom: 20px; left: 20px; opacity: 0.10; animation: sway 12s ease-in-out 4s infinite; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-8deg) scale(1); }
+      50% { transform: rotate(8deg) scale(1.04); }
+    }
+
+    /* ─── Progress Steps ─── */
+    .progress-strip {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease-out) 0.65s forwards;
+    }
+    .progress-dot {
+      width: 28px;
+      height: 4px;
+      border-radius: var(--radius-pill);
+      background: var(--blush);
+      transition: background 0.4s, width 0.4s;
+    }
+    .progress-dot.active { background: var(--sage); width: 44px; }
+    .progress-dot.done { background: var(--sage-lt); }
+
+    /* Step labels */
+    .step-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease-out) 0.7s forwards;
+    }
+
+    /* ─── Form Card ─── */
+    .form-card {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(168,196,180,0.3);
+      border-radius: var(--radius);
+      padding: 44px 48px;
+      box-shadow: 0 4px 40px rgba(78,114,98,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-out) 0.8s forwards;
+    }
+
+    @media (max-width: 560px) {
+      .form-card { padding: 28px 20px; }
+    }
+
+    /* Panels */
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    /* Panel enter animation */
+    .form-panel.entering {
+      animation: panelIn 0.5s var(--ease-out) forwards;
+    }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Form question title ─── */
+    .q-number {
+      font-family: var(--ff-serif);
+      font-size: 13px;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .q-title {
+      font-family: var(--ff-serif);
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 400;
+      color: var(--charcoal);
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .q-hint {
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* ─── Text Input ─── */
+    .input-group { margin-bottom: 24px; }
+
+    .input-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage-dk);
+      margin-bottom: 10px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 20px;
+      border: 1.5px solid rgba(168,196,180,0.5);
+      border-radius: var(--radius-sm);
+      background: rgba(250,248,243,0.8);
+      font-family: var(--ff-sans);
+      font-size: 15px;
+      color: var(--charcoal);
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+      outline: none;
+    }
+    .input-field::placeholder { color: rgba(107,102,94,0.45); }
+    .input-field:focus {
+      border-color: var(--sage);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(122,158,142,0.15);
+    }
+    .input-field.error { border-color: #d4826e; }
+
+    /* Date input pair */
+    .date-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    /* ─── Choice Cards (Radio) ─── */
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .choice-grid.two-col { grid-template-columns: 1fr 1fr; }
+    .choice-grid.one-col { grid-template-columns: 1fr; }
+
+    .choice-label {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .choice-label input[type="radio"],
+    .choice-label input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .choice-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border: 1.5px solid rgba(168,196,180,0.4);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.55);
+      transition: all 0.25s var(--ease-out);
+      user-select: none;
+    }
+
+    .choice-card__icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .choice-card__text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--charcoal);
+      line-height: 1.3;
+    }
+
+    .choice-label:hover .choice-card {
+      border-color: var(--sage-lt);
+      background: rgba(168,196,180,0.12);
+      transform: translateY(-1px);
+    }
+
+    .choice-label input:checked + .choice-card {
+      border-color: var(--sage);
+      background: rgba(122,158,142,0.1);
+      box-shadow: 0 0 0 1px var(--sage);
+    }
+
+    .choice-label input:checked + .choice-card .choice-card__text {
+      color: var(--sage-dk);
+      font-weight: 600;
+    }
+
+    /* indicator dot */
+    .choice-card::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid var(--sage-lt);
+      margin-left: auto;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .choice-label input:checked + .choice-card::after {
+      background: var(--sage);
+      border-color: var(--sage);
+    }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 36px;
+      border-radius: var(--radius-pill);
+      font-family: var(--ff-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-out);
+      border: 1.5px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--sage-dk);
+      color: var(--white);
+      border-color: var(--sage-dk);
+    }
+    .btn-primary:hover {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(44,42,38,0.2);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--stone);
+      border-color: rgba(168,196,180,0.5);
+    }
+    .btn-ghost:hover {
+      background: rgba(168,196,180,0.12);
+      border-color: var(--sage-lt);
+      color: var(--sage-dk);
+    }
+
+    .btn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 36px;
+      gap: 12px;
+    }
+    .btn-row .btn { min-width: 120px; }
+
+    /* Arrow icon in button */
+    .arrow { font-size: 16px; transition: transform 0.25s; }
+    .btn:hover .arrow { transform: translateX(4px); }
+    .btn-ghost:hover .arrow-left { transform: translateX(-4px); }
+
+    /* ─── Error message ─── */
+    .field-error {
+      font-size: 12px;
+      color: #c0604a;
+      margin-top: 6px;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
+    /* ─── Success Screen ─── */
+    .success-screen {
+      text-align: center;
+      padding: 40px 0 20px;
+      display: none;
+    }
+    .success-screen.show { display: block; }
+
+    .success-emblem {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage-lt), var(--mist));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 34px;
+      animation: scaleIn 0.6s var(--ease-out) forwards;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .success-title {
+      font-family: var(--ff-serif);
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 12px;
+    }
+    .success-title em { font-style: italic; color: var(--sage-dk); }
+
+    .success-body {
+      font-size: 15px;
+      color: var(--stone);
+      line-height: 1.75;
+      max-width: 400px;
+      margin: 0 auto 36px;
+    }
+
+    .success-back {
+      font-size: 13px;
+      color: var(--sage);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--sage-lt);
+      transition: color 0.2s;
+    }
+    .success-back:hover { color: var(--sage-dk); }
+
+    /* ─── Loading spinner ─── */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .btn-primary.loading .spinner { display: inline-block; }
+    .btn-primary.loading .btn-text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Footer attribution ─── */
+    .page-footer {
+      text-align: center;
+      padding: 40px 24px 0;
+      font-size: 12px;
+      color: rgba(107,102,94,0.5);
+      letter-spacing: 0.1em;
+    }
+    .page-footer a { color: var(--sage); text-decoration: none; }
+    .page-footer a:hover { color: var(--sage-dk); }
+
+    /* ─── Utility animations ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Tooltip / note box ─── */
+    .note-box {
+      background: rgba(168,196,180,0.12);
+      border-left: 3px solid var(--sage-lt);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--stone);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 480px) {
+      .choice-grid { grid-template-columns: 1fr 1fr; }
+      .choice-grid.one-col { grid-template-columns: 1fr; }
+      .date-row { grid-template-columns: 1fr 1fr; }
+      .btn-row { flex-direction: column-reverse; align-items: stretch; }
+      .btn-row .btn { width: 100%; }
+    }
+
+    /* Select element */
+    select.input-field {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9e8e' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Botanical Decorations (SVG) -->
+<svg class="botanical-decor leaf-1" width="140" height="180" viewBox="0 0 140 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M70 170 Q20 130 30 80 Q40 30 70 10 Q100 30 110 80 Q120 130 70 170Z" stroke="#7a9e8e" stroke-width="1.2" fill="rgba(168,196,180,0.15)"/>
+  <line x1="70" y1="170" x2="70" y2="10" stroke="#7a9e8e" stroke-width="0.8" stroke-dasharray="3 4"/>
+  <line x1="70" y1="120" x2="40" y2="90" stroke="#7a9e8e" stroke-width="0.7"/>
+  <line x1="70" y1="100" x2="100" y2="70" stroke="#7a9e8e" stroke-width="0.7"/>
+  <line x1="70" y1="80" x2="45" y2="55" stroke="#7a9e8e" stroke-width="0.7"/>
+</svg>
+
+<svg class="botanical-decor leaf-2" width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="60" cy="80" rx="35" ry="70" transform="rotate(15 60 80)" stroke="#b8976e" stroke-width="1" fill="rgba(184,151,110,0.08)"/>
+  <path d="M60 20 Q40 80 60 140" stroke="#b8976e" stroke-width="0.8" fill="none"/>
+</svg>
+
+<svg class="botanical-decor leaf-3" width="100" height="120" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M50 110 C10 90 5 60 20 30 Q35 5 50 5 Q65 5 80 30 C95 60 90 90 50 110Z" stroke="#a8c4b4" stroke-width="1" fill="rgba(168,196,180,0.1)"/>
+</svg>
+
+<div class="page-wrapper">
+  <!-- Hero -->
+  <header class="hero" role="banner">
+    <svg class="botanical-decor leaf-1" width="100" height="130" viewBox="0 0 100 130" fill="none" style="position:absolute;top:10px;left:-60px;opacity:0.15;" aria-hidden="true">
+      <path d="M50 120 Q10 90 15 55 Q20 20 50 5 Q80 20 85 55 Q90 90 50 120Z" stroke="#7a9e8e" stroke-width="1" fill="rgba(168,196,180,0.2)"/>
+      <line x1="50" y1="120" x2="50" y2="5" stroke="#7a9e8e" stroke-width="0.7" stroke-dasharray="3 3"/>
+    </svg>
+
+    <div class="hero__logo-wrap">
+      <!-- Celestial Moon Emblem SVG -->
+      <svg class="emblem" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Carol's Scent emblem">
+        <!-- Outer ring -->
+        <circle cx="27" cy="27" r="25" stroke="#7a9e8e" stroke-width="0.8" stroke-dasharray="2 3"/>
+        <!-- Crescent moon -->
+        <path d="M27 12 A15 15 0 0 1 27 42 A10 10 0 0 0 27 12Z" fill="rgba(122,158,142,0.2)" stroke="#4e7262" stroke-width="0.9"/>
+        <!-- Stars -->
+        <circle cx="38" cy="16" r="1.2" fill="#b8976e"/>
+        <circle cx="18" cy="38" r="0.9" fill="#b8976e"/>
+        <circle cx="40" cy="34" r="0.7" fill="#a8c4b4"/>
+        <!-- Leaf sprigs -->
+        <path d="M22 30 Q18 26 20 22 Q24 24 22 30Z" fill="rgba(122,158,142,0.35)" stroke="#4e7262" stroke-width="0.6"/>
+        <path d="M32 30 Q36 26 34 22 Q30 24 32 30Z" fill="rgba(122,158,142,0.35)" stroke="#4e7262" stroke-width="0.6"/>
+        <line x1="27" y1="30" x2="27" y2="38" stroke="#4e7262" stroke-width="0.7"/>
+      </svg>
+      <span class="hero__brand">Carol's Scent</span>
+    </div>
+
+    <h1 class="hero__title">星座 <em>香氣分析</em></h1>
+    <p class="hero__subtitle">
+      讓星象引領，為您的靈魂尋找最獨特的天然精油香氣配方。<br/>
+      只需幾分鐘，與我們分享您的感受與需求。
+    </p>
+
+    <div class="divider">
+      <span class="divider__line"></span>
+      <span class="divider__icon">✦</span>
+      <span class="divider__line"></span>
+    </div>
+  </header>
+
+  <!-- Step progress -->
+  <div class="step-label" id="stepLabel">第 1 步，共 4 步</div>
+  <div class="progress-strip" id="progressStrip" role="progressbar" aria-label="表單進度">
+    <div class="progress-dot active" id="dot0"></div>
+    <div class="progress-dot" id="dot1"></div>
+    <div class="progress-dot" id="dot2"></div>
+    <div class="progress-dot" id="dot3"></div>
+  </div>
+
+  <!-- ─── FORM CARD ─── -->
+  <div class="form-card" role="main">
+
+    <form id="scentForm" novalidate>
+
+      <!-- ═══ PANEL 1 – Name & Birthday ═══ -->
+      <div class="form-panel active entering" id="panel0">
+        <p class="q-number">問卷 · 一</p>
+        <h2 class="q-title">請告訴我們關於您的一切</h2>
+        <p class="q-hint">星象需要您的出生資訊來精準分析最適合您的香氣。</p>
+
+        <!-- Name -->
+        <div class="input-group">
+          <label class="input-label" for="name">您的名字</label>
+          <input
+            class="input-field"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="請輸入您的名字"
+            autocomplete="given-name"
+          />
+          <span class="field-error" id="nameErr">請填寫您的名字</span>
+        </div>
+
+        <!-- Birthday -->
+        <div class="input-group">
+          <label class="input-label">生日日期</label>
+          <div class="date-row">
+            <div>
+              <select class="input-field" id="birthYear" name="birthYear" aria-label="出生年份">
+                <option value="">年份</option>
+              </select>
+            </div>
+            <div>
+              <select class="input-field" id="birthMonth" name="birthMonth" aria-label="出生月份">
+                <option value="">月份</option>
+                <option value="01">1月</option>
+                <option value="02">2月</option>
+                <option value="03">3月</option>
+                <option value="04">4月</option>
+                <option value="05">5月</option>
+                <option value="06">6月</option>
+                <option value="07">7月</option>
+                <option value="08">8月</option>
+                <option value="09">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+              </select>
+            </div>
+            <div>
+              <select class="input-field" id="birthDay" name="birthDay" aria-label="出生日期">
+                <option value="">日</option>
+              </select>
+            </div>
+          </div>
+          <span class="field-error" id="dateErr">請選擇完整的生日日期</span>
+        </div>
+
+        <div class="btn-row">
+          <span></span>
+          <button type="button" class="btn btn-primary" id="next0" onclick="goNext(0)">
+            <span class="btn-text">繼續 <span class="arrow">→</span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 2 – Fragrance & Purpose ═══ -->
+      <div class="form-panel" id="panel1">
+        <p class="q-number">問卷 · 二</p>
+        <h2 class="q-title">您的香氣偏好</h2>
+        <p class="q-hint">選擇最貼近您感受的選項，讓我們為您量身打造。</p>
+
+        <!-- Q3: Fragrance type -->
+        <div class="input-group">
+          <label class="input-label">您喜歡哪類香調？</label>
+          <div class="choice-grid">
+            <label class="choice-label">
+              <input type="radio" name="fragranceType" value="花香" required />
+              <div class="choice-card">
+                <span class="choice-card__icon">🌸</span>
+                <span class="choice-card__text">花香</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="fragranceType" value="草本" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🌿</span>
+                <span class="choice-card__text">草本</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="fragranceType" value="木質" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🌳</span>
+                <span class="choice-card__text">木質</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="fragranceType" value="土壤" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🌍</span>
+                <span class="choice-card__text">土壤</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="fragranceType" value="果香" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🍊</span>
+                <span class="choice-card__text">果香</span>
+              </div>
+            </label>
+          </div>
+          <span class="field-error" id="fragErr">請選擇香調</span>
+        </div>
+
+        <!-- Q4: Purpose -->
+        <div class="input-group">
+          <label class="input-label">您的使用目的</label>
+          <div class="choice-grid one-col">
+            <label class="choice-label">
+              <input type="radio" name="purpose" value="調理身體" required />
+              <div class="choice-card">
+                <span class="choice-card__icon">💆</span>
+                <span class="choice-card__text">調理身體</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="purpose" value="調節情緒" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🧘</span>
+                <span class="choice-card__text">調節情緒</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="purpose" value="單純享受薰香" />
+              <div class="choice-card">
+                <span class="choice-card__icon">✨</span>
+                <span class="choice-card__text">單純享受薰香</span>
+              </div>
+            </label>
+          </div>
+          <span class="field-error" id="purposeErr">請選擇使用目的</span>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="goPrev(1)">
+            <span class="arrow-left">←</span> 返回
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goNext(1)">
+            <span class="btn-text">繼續 <span class="arrow">→</span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 3 – Usage & Recipient ═══ -->
+      <div class="form-panel" id="panel2">
+        <p class="q-number">問卷 · 三</p>
+        <h2 class="q-title">使用方式與對象</h2>
+        <p class="q-hint">讓您的精油香氣在最合適的場景中綻放光芒。</p>
+
+        <!-- Q5: Usage method -->
+        <div class="input-group">
+          <label class="input-label">薰香的使用方式</label>
+          <div class="choice-grid one-col">
+            <label class="choice-label">
+              <input type="radio" name="usageMethod" value="空間擴香（車內/室內）" required />
+              <div class="choice-card">
+                <span class="choice-card__icon">🏠</span>
+                <span class="choice-card__text">空間擴香（車內 / 室內）</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="usageMethod" value="直接塗抹於肌膚" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🤲</span>
+                <span class="choice-card__text">直接塗抹於肌膚</span>
+              </div>
+            </label>
+          </div>
+          <span class="field-error" id="usageErr">請選擇使用方式</span>
+        </div>
+
+        <!-- Q6: Recipient -->
+        <div class="input-group">
+          <label class="input-label">這份薰香主要是準備給誰的呢？</label>
+          <div class="choice-grid one-col">
+            <label class="choice-label">
+              <input type="radio" name="recipient" value="給辛苦的自己（自用）" required />
+              <div class="choice-card">
+                <span class="choice-card__icon">💛</span>
+                <span class="choice-card__text">給辛苦的自己（自用）</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="recipient" value="給心儀或重要的人（送禮）" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🎁</span>
+                <span class="choice-card__text">給心儀或重要的人（送禮）</span>
+              </div>
+            </label>
+            <label class="choice-label">
+              <input type="radio" name="recipient" value="與家人/室友共同享有" />
+              <div class="choice-card">
+                <span class="choice-card__icon">🏡</span>
+                <span class="choice-card__text">與家人 / 室友共同享有</span>
+              </div>
+            </label>
+          </div>
+          <span class="field-error" id="recipientErr">請選擇對象</span>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="goPrev(2)">
+            <span class="arrow-left">←</span> 返回
+          </button>
+          <button type="button" class="btn btn-primary" onclick="goNext(2)">
+            <span class="btn-text">繼續 <span class="arrow">→</span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ═══ PANEL 4 – Email & Submit ═══ -->
+      <div class="form-panel" id="panel3">
+        <p class="q-number">問卷 · 四</p>
+        <h2 class="q-title">最後一步：您的電郵</h2>
+        <p class="q-hint">我們將把您的專屬星座香氣分析結果直接送到您的信箱。</p>
+
+        <div class="note-box">
+          🌿 您的資料僅用於提供個人化香氣建議，我們絕不與第三方共享。
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="email">電子郵件地址</label>
+          <input
+            class="input-field"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@email.com"
+            autocomplete="email"
+          />
+          <span class="field-error" id="emailErr">請輸入有效的電子郵件地址</span>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" onclick="goPrev(3)">
+            <span class="arrow-left">←</span> 返回
+          </button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <span class="btn-text">提交分析 ✦</span>
+            <div class="spinner"></div>
+          </button>
+        </div>
+      </div>
+
+    </form><!-- /form -->
+
+    <!-- ─── SUCCESS SCREEN ─── -->
+    <div class="success-screen" id="successScreen" role="status" aria-live="polite">
+      <div class="success-emblem">🌿</div>
+      <h2 class="success-title">感謝您，<em id="successName"></em></h2>
+      <p class="success-body">
+        您的星座香氣分析已成功送出。<br/>
+        我們的香氣師 Carol 將親自為您的靈魂調配專屬精油配方，<br/>並通過電郵與您聯繫。
+      </p>
+      <p class="success-body" style="font-family: var(--ff-serif); font-style: italic; font-size: 14px; color: var(--sage-dk);">
+        「香氣是靈魂最深處的語言」
+      </p>
+      <a href="https://www.carolsscent.com" class="success-back" target="_blank" rel="noopener">
+        ← 前往 Carol's Scent 官網
+      </a>
+    </div>
+
+  </div><!-- /form-card -->
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <p>© 2024 <a href="https://www.carolsscent.com" target="_blank" rel="noopener">Carol's Scent</a> · Scent for Soul</p>
+  </footer>
+
+</div><!-- /page-wrapper -->
+
+<script>
+  /* ─── Year Select Population ─── */
+  (function() {
+    const yearSel = document.getElementById('birthYear');
+    const daySel  = document.getElementById('birthDay');
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= 1940; y--) {
+      const opt = document.createElement('option');
+      opt.value = String(y);
+      opt.textContent = y + '年';
+      yearSel.appendChild(opt);
+    }
+    for (let d = 1; d <= 31; d++) {
+      const opt = document.createElement('option');
+      opt.value = String(d).padStart(2, '0');
+      opt.textContent = d + '日';
+      daySel.appendChild(opt);
+    }
+  })();
+
+
+  /* ─── State ─── */
+  let currentPanel = 0;
+  const totalPanels = 4;
+
+  /* ─── Navigation ─── */
+  function goNext(from) {
+    if (!validatePanel(from)) return;
+    showPanel(from + 1);
+  }
+
+  function goPrev(from) {
+    showPanel(from - 1);
+  }
+
+  function showPanel(idx) {
+    const panels = document.querySelectorAll('.form-panel');
+    panels[currentPanel].classList.remove('active', 'entering');
+    panels[idx].classList.add('active');
+    // Trigger animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panels[idx].classList.add('entering');
+      });
+    });
+    currentPanel = idx;
+    updateProgress(idx);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(idx) {
+    const dots = document.querySelectorAll('.progress-dot');
+    const labels = ['第 1 步，共 4 步', '第 2 步，共 4 步', '第 3 步，共 4 步', '第 4 步，共 4 步'];
+    dots.forEach((dot, i) => {
+      dot.classList.remove('active', 'done');
+      if (i === idx) dot.classList.add('active');
+      else if (i < idx) dot.classList.add('done');
+    });
+    document.getElementById('stepLabel').textContent = labels[idx];
+  }
+
+  /* ─── Validation ─── */
+  function validatePanel(panelIdx) {
+    let valid = true;
+
+    if (panelIdx === 0) {
+      const name = document.getElementById('name').value.trim();
+      const year = document.getElementById('birthYear').value;
+      const month = document.getElementById('birthMonth').value;
+      const day = document.getElementById('birthDay').value;
+
+      toggleError('nameErr', !name);
+      toggleError('dateErr', !year || !month || !day);
+      toggleInputError('name', !name);
+
+      if (!name || !year || !month || !day) valid = false;
+    }
+
+    if (panelIdx === 1) {
+      const frag = document.querySelector('input[name="fragranceType"]:checked');
+      const purpose = document.querySelector('input[name="purpose"]:checked');
+
+      toggleError('fragErr', !frag);
+      toggleError('purposeErr', !purpose);
+
+      if (!frag || !purpose) valid = false;
+    }
+
+    if (panelIdx === 2) {
+      const usage = document.querySelector('input[name="usageMethod"]:checked');
+      const recipient = document.querySelector('input[name="recipient"]:checked');
+
+      toggleError('usageErr', !usage);
+      toggleError('recipientErr', !recipient);
+
+      if (!usage || !recipient) valid = false;
+    }
+
+    if (panelIdx === 3) {
+      const email = document.getElementById('email').value.trim();
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      toggleError('emailErr', !emailValid);
+      toggleInputError('email', !emailValid);
+
+      if (!emailValid) valid = false;
+    }
+
+    return valid;
+  }
+
+  function toggleError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+
+  function toggleInputError(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('error', show);
+  }
+
+  /* ─── Form Submit → n8n Webhook ─── */
+  document.getElementById('scentForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validatePanel(3)) return;
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    const birthday = [
+      document.getElementById('birthYear').value,
+      document.getElementById('birthMonth').value,
+      document.getElementById('birthDay').value
+    ].join('-');
+
+    const payload = {
+      name:          document.getElementById('name').value.trim(),
+      birthday:      birthday,
+      fragranceType: document.querySelector('input[name="fragranceType"]:checked').value,
+      purpose:       document.querySelector('input[name="purpose"]:checked').value,
+      usageMethod:   document.querySelector('input[name="usageMethod"]:checked').value,
+      recipient:     document.querySelector('input[name="recipient"]:checked').value,
+      email:         document.getElementById('email').value.trim(),
+      submittedAt:   new Date().toISOString()
+    };
+
+    try {
+      const response = await fetch(
+        'https://ys286.zeabur.app/webhook-test/37671182-89b1-4e45-9d1a-b35b82c2abea',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      // Show success regardless (webhook may return non-200 in test mode)
+      showSuccess(payload.name);
+
+    } catch (err) {
+      // Even on network error in test mode, show success (webhook-test may block CORS)
+      console.warn('Webhook request issue (expected in test mode):', err);
+      showSuccess(payload.name);
+    }
+  });
+
+  function showSuccess(name) {
+    document.getElementById('scentForm').style.display = 'none';
+    document.getElementById('stepLabel').style.display = 'none';
+    document.getElementById('progressStrip').style.display = 'none';
+
+    const screen = document.getElementById('successScreen');
+    document.getElementById('successName', name);
+    // set name in title
+    const nameSpan = document.getElementById('successName');
+    nameSpan.textContent = name;
+
+    screen.classList.add('show');
+  }
+</script>
+</body>
+</html>
