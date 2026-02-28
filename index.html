@@ -92,26 +92,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
       opacity: 0;
       animation: fadeUp 0.9s var(--ease-out) 0.1s forwards;
     }
 
-    /* SVG Emblem – celestial moon + botanical */
-    .emblem {
-      width: 54px;
-      height: 54px;
-      flex-shrink: 0;
+    /* Real logo image */
+    .logo-img-wrap {
+      background: var(--sage-dk);
+      border-radius: var(--radius-pill);
+      padding: 16px 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(78, 114, 98, 0.25);
     }
 
-    .hero__brand {
-      font-family: var(--ff-sans);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--stone);
+    .logo-img {
+      height: 52px;
+      width: auto;
+      display: block;
+      filter: brightness(1);
     }
 
     .hero__title {
@@ -748,26 +749,9 @@
       </svg>
 
       <div class="hero__logo-wrap">
-        <!-- Celestial Moon Emblem SVG -->
-        <svg class="emblem" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg"
-          aria-label="Carol's Scent emblem">
-          <!-- Outer ring -->
-          <circle cx="27" cy="27" r="25" stroke="#7a9e8e" stroke-width="0.8" stroke-dasharray="2 3" />
-          <!-- Crescent moon -->
-          <path d="M27 12 A15 15 0 0 1 27 42 A10 10 0 0 0 27 12Z" fill="rgba(122,158,142,0.2)" stroke="#4e7262"
-            stroke-width="0.9" />
-          <!-- Stars -->
-          <circle cx="38" cy="16" r="1.2" fill="#b8976e" />
-          <circle cx="18" cy="38" r="0.9" fill="#b8976e" />
-          <circle cx="40" cy="34" r="0.7" fill="#a8c4b4" />
-          <!-- Leaf sprigs -->
-          <path d="M22 30 Q18 26 20 22 Q24 24 22 30Z" fill="rgba(122,158,142,0.35)" stroke="#4e7262"
-            stroke-width="0.6" />
-          <path d="M32 30 Q36 26 34 22 Q30 24 32 30Z" fill="rgba(122,158,142,0.35)" stroke="#4e7262"
-            stroke-width="0.6" />
-          <line x1="27" y1="30" x2="27" y2="38" stroke="#4e7262" stroke-width="0.7" />
-        </svg>
-        <span class="hero__brand">Carol's Scent</span>
+        <div class="logo-img-wrap">
+          <img class="logo-img" src="logo.png" alt="Carol's Scent" />
+        </div>
       </div>
 
       <h1 class="hero__title">星座 <em>香氣分析</em></h1>
