@@ -406,9 +406,20 @@
     }
 
     .choice-card__icon {
-      font-size: 18px;
       flex-shrink: 0;
       line-height: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .choice-card__icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: #b8976e;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .choice-card__text {
@@ -710,6 +721,7 @@
       cursor: pointer;
     }
   </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 
 <body>
@@ -857,35 +869,35 @@
               <label class="choice-label">
                 <input type="radio" name="fragranceType" value="花香" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🌸</span>
+                  <span class="choice-card__icon"><i data-lucide="flower-2"></i></span>
                   <span class="choice-card__text">花香</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="fragranceType" value="草本" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🌿</span>
+                  <span class="choice-card__icon"><i data-lucide="leaf"></i></span>
                   <span class="choice-card__text">草本</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="fragranceType" value="木質" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🌳</span>
+                  <span class="choice-card__icon"><i data-lucide="tree-pine"></i></span>
                   <span class="choice-card__text">木質</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="fragranceType" value="土壤" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🌍</span>
+                  <span class="choice-card__icon"><i data-lucide="mountain"></i></span>
                   <span class="choice-card__text">土壤</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="fragranceType" value="果香" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🍊</span>
+                  <span class="choice-card__icon"><i data-lucide="citrus"></i></span>
                   <span class="choice-card__text">果香</span>
                 </div>
               </label>
@@ -900,21 +912,21 @@
               <label class="choice-label">
                 <input type="radio" name="purpose" value="調理身體" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon">💆</span>
+                  <span class="choice-card__icon"><i data-lucide="heart-pulse"></i></span>
                   <span class="choice-card__text">調理身體</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="purpose" value="調節情緒" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🧘</span>
+                  <span class="choice-card__icon"><i data-lucide="brain"></i></span>
                   <span class="choice-card__text">調節情緒</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="purpose" value="單純享受薰香" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">✨</span>
+                  <span class="choice-card__icon"><i data-lucide="sparkles"></i></span>
                   <span class="choice-card__text">單純享受薰香</span>
                 </div>
               </label>
@@ -945,14 +957,14 @@
               <label class="choice-label">
                 <input type="radio" name="usageMethod" value="空間擴香（車內/室內）" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🏠</span>
+                  <span class="choice-card__icon"><i data-lucide="home"></i></span>
                   <span class="choice-card__text">空間擴香（車內 / 室內）</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="usageMethod" value="直接塗抹於肌膚" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🤲</span>
+                  <span class="choice-card__icon"><i data-lucide="hand"></i></span>
                   <span class="choice-card__text">直接塗抹於肌膚</span>
                 </div>
               </label>
@@ -967,21 +979,21 @@
               <label class="choice-label">
                 <input type="radio" name="recipient" value="給辛苦的自己（自用）" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon">💛</span>
+                  <span class="choice-card__icon"><i data-lucide="heart"></i></span>
                   <span class="choice-card__text">給辛苦的自己（自用）</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="recipient" value="給心儀或重要的人（送禮）" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🎁</span>
+                  <span class="choice-card__icon"><i data-lucide="gift"></i></span>
                   <span class="choice-card__text">給心儀或重要的人（送禮）</span>
                 </div>
               </label>
               <label class="choice-label">
                 <input type="radio" name="recipient" value="與家人/室友共同享有" />
                 <div class="choice-card">
-                  <span class="choice-card__icon">🏡</span>
+                  <span class="choice-card__icon"><i data-lucide="users"></i></span>
                   <span class="choice-card__text">與家人 / 室友共同享有</span>
                 </div>
               </label>
@@ -1060,6 +1072,9 @@
   </div><!-- /page-wrapper -->
 
   <script>
+    /* ─── Lucide Icons ─── */
+    lucide.createIcons();
+
     /* ─── Year Select Population ─── */
     (function () {
       const yearSel = document.getElementById('birthYear');
