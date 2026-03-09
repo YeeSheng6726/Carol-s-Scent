@@ -1075,45 +1075,45 @@
 
           <!-- Q3: Plant Scent Preference -->
           <div class="input-group">
-            <label class="input-label">你喜歡的植物氣味？</label>
+            <label class="input-label">你喜歡的植物氣味？ (可多選)</label>
             <div class="choice-grid">
               <label class="choice-label">
-                <input type="radio" name="plantScent" value="花" required />
+                <input type="checkbox" name="plantScent" value="花" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="flower-2"></i></span>
                   <span class="choice-card__text">花</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="plantScent" value="草" />
+                <input type="checkbox" name="plantScent" value="草" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="sprout"></i></span>
                   <span class="choice-card__text">草</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="plantScent" value="木" />
+                <input type="checkbox" name="plantScent" value="木" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="tree-pine"></i></span>
                   <span class="choice-card__text">木</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="plantScent" value="綠葉" />
+                <input type="checkbox" name="plantScent" value="綠葉" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="leaf"></i></span>
                   <span class="choice-card__text">綠葉</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="plantScent" value="水果" />
+                <input type="checkbox" name="plantScent" value="水果" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="citrus"></i></span>
                   <span class="choice-card__text">水果</span>
                 </div>
               </label>
             </div>
-            <span class="field-error" id="plantScentErr">請選擇一個喜歡的植物氣味</span>
+            <span class="field-error" id="plantScentErr">請至少選擇一個植物氣味</span>
           </div>
 
           <!-- Q4: Scent Impression -->
@@ -1601,13 +1601,13 @@
 
       // Panel 3: Fragrance Preferences
       if (panelIdx === 2) {
-        const plantScent = document.querySelector('input[name="plantScent"]:checked');
+        const plantScent = document.querySelectorAll('input[name="plantScent"]:checked');
         const impression = document.querySelectorAll('input[name="impression"]:checked');
 
-        toggleError('plantScentErr', !plantScent);
+        toggleError('plantScentErr', plantScent.length === 0);
         toggleError('impressionErr', impression.length === 0);
 
-        if (!plantScent || impression.length === 0) valid = false;
+        if (plantScent.length === 0 || impression.length === 0) valid = false;
       }
 
       // Panel 4: Goals, Advanced & Email
@@ -1663,7 +1663,7 @@
         '星座': document.getElementById('zodiac').value,
         '你是自用或送人？': getValues('recipient'),
         '什麼情境會用這支精油？': getValues('context'),
-        '你喜歡的植物氣味？': document.querySelector('input[name="plantScent"]:checked').value,
+        '你喜歡的植物氣味？': getValues('plantScent'),
         '你喜歡的香氣印象？': getValues('impression'),
         '你想要用這精油改善什麼狀況？': getValues('goals') || '無', // Optional
         '你喜歡哪一種植物香氣？': getValues('specificScents'),
