@@ -431,12 +431,6 @@
       line-height: 1.3;
     }
 
-    .choice-label:hover .choice-card {
-      border-color: var(--sage-lt);
-      background: rgba(168, 196, 180, 0.12);
-      transform: translateY(-1px);
-    }
-
     .choice-label input:checked+.choice-card {
       border-color: var(--sage);
       background: rgba(122, 158, 142, 0.1);
@@ -489,13 +483,6 @@
       border-color: var(--sage-dk);
     }
 
-    .btn-primary:hover {
-      background: var(--charcoal);
-      border-color: var(--charcoal);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(44, 42, 38, 0.2);
-    }
-
     .btn-primary:active {
       transform: translateY(0);
     }
@@ -504,12 +491,6 @@
       background: transparent;
       color: var(--stone);
       border-color: rgba(168, 196, 180, 0.5);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(168, 196, 180, 0.12);
-      border-color: var(--sage-lt);
-      color: var(--sage-dk);
     }
 
     .btn-row {
@@ -530,12 +511,51 @@
       transition: transform 0.25s;
     }
 
-    .btn:hover .arrow {
-      transform: translateX(4px);
+    @media (hover: hover) {
+      .btn-primary:hover {
+        background: var(--charcoal);
+        border-color: var(--charcoal);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(44, 42, 38, 0.2);
+      }
+
+      .btn-ghost:hover {
+        background: rgba(168, 196, 180, 0.12);
+        border-color: var(--sage-lt);
+        color: var(--sage-dk);
+      }
+
+      .btn:hover .arrow {
+        transform: translateX(4px);
+      }
+
+      .btn-ghost:hover .arrow-left {
+        transform: translateX(-4px);
+      }
+
+      .choice-label:hover .choice-card {
+        border-color: var(--sage-lt);
+        background: rgba(168, 196, 180, 0.12);
+        transform: translateY(-1px);
+      }
     }
 
-    .btn-ghost:hover .arrow-left {
-      transform: translateX(-4px);
+    @media (max-width: 560px) {
+      .btn-row {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 16px;
+        margin-top: 40px;
+      }
+
+      .btn-row .btn {
+        width: 100%;
+        padding: 16px;
+      }
+
+      .btn-row>span {
+        display: none;
+      }
     }
 
     /* ─── Error message ─── */
@@ -807,12 +827,18 @@
           <h2 class="q-title">請告訴我們關於您的一切</h2>
           <p class="q-hint">星象需要您的出生資訊來精準分析最適合您的香氣。</p>
 
+          <div class="note-box" style="margin-bottom: 32px;">
+            <i data-lucide="sprout"
+              style="width:16px;height:16px;stroke:#b8976e;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-right:4px;"></i>
+            <strong style="color:var(--sage-dk);">自用或送人？</strong><br />
+            若這支精油是送給他人的禮物，以下請填入<strong>對方</strong>的資訊。若您不了解對方，請根據您想給對方的心意來填寫；若是自用，請全部填寫自己的資訊。
+          </div>
+
           <!-- Name -->
           <div class="input-group">
-            <label class="input-label" for="name">您的名字</label>
-            <input class="input-field" type="text" id="name" name="name" placeholder="請輸入您的名字"
-              autocomplete="given-name" />
-            <span class="field-error" id="nameErr">請填寫您的名字</span>
+            <label class="input-label" for="name">真實姓名 (與身分證相同)</label>
+            <input class="input-field" type="text" id="name" name="name" placeholder="請輸入全名" autocomplete="name" />
+            <span class="field-error" id="nameErr">請填寫全名</span>
           </div>
 
           <!-- Birthday -->
@@ -850,6 +876,57 @@
             <span class="field-error" id="dateErr">請選擇完整的生日日期</span>
           </div>
 
+          <!-- Zodiac & Age -->
+          <div class="date-row" style="grid-template-columns: 2fr 1fr; gap: 16px;">
+            <div class="input-group" style="margin-bottom: 0;">
+              <label class="input-label" for="zodiac">星座</label>
+              <select class="input-field" id="zodiac" name="zodiac"
+                style="pointer-events: none; background-color: #f3f4f6; color: var(--stone);" tabindex="-1">
+                <option value=""></option>
+                <option value="水瓶座 (Aquarius)">水瓶座 (Aquarius)</option>
+                <option value="雙魚座 (Pisces)">雙魚座 (Pisces)</option>
+                <option value="牡羊座 (Aries)">牡羊座 (Aries)</option>
+                <option value="金牛座 (Taurus)">金牛座 (Taurus)</option>
+                <option value="雙子座 (Gemini)">雙子座 (Gemini)</option>
+                <option value="巨蟹座 (Cancer)">巨蟹座 (Cancer)</option>
+                <option value="獅子座 (Leo)">獅子座 (Leo)</option>
+                <option value="處女座 (Virgo)">處女座 (Virgo)</option>
+                <option value="天秤座 (Libra)">天秤座 (Libra)</option>
+                <option value="天蠍座 (Scorpio)">天蠍座 (Scorpio)</option>
+                <option value="射手座 (Sagittarius)">射手座 (Sagittarius)</option>
+                <option value="摩羯座 (Capricorn)">摩羯座 (Capricorn)</option>
+              </select>
+              <span class="field-error" id="zodiacErr">請先選擇生日日期</span>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 0;">
+              <label class="input-label" for="age">年齡</label>
+              <input class="input-field" type="number" id="age" name="age" placeholder="" min="1" max="150" readonly
+                style="background-color: #f3f4f6; color: var(--stone);" tabindex="-1" />
+              <span class="field-error" id="ageErr">請先選擇生日日期</span>
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <div class="input-group" style="margin-top: 24px;">
+            <label class="input-label">性別</label>
+            <div class="choice-grid two-col">
+              <label class="choice-label">
+                <input type="radio" name="gender" value="Male" required />
+                <div class="choice-card">
+                  <span class="choice-card__text">男</span>
+                </div>
+              </label>
+              <label class="choice-label">
+                <input type="radio" name="gender" value="Female" />
+                <div class="choice-card">
+                  <span class="choice-card__text">女</span>
+                </div>
+              </label>
+            </div>
+            <span class="field-error" id="genderErr">請選擇性別</span>
+          </div>
+
           <div class="btn-row">
             <span></span>
             <button type="button" class="btn btn-primary" id="next0" onclick="goNext(0)">
@@ -858,168 +935,435 @@
           </div>
         </div>
 
-        <!-- ═══ PANEL 2 – Fragrance & Purpose ═══ -->
+        <!-- ═══ PANEL 2 – Recipient & Context ═══ -->
         <div class="form-panel" id="panel1">
           <p class="q-number">問卷 · 二</p>
-          <h2 class="q-title">您的香氣偏好</h2>
-          <p class="q-hint">選擇最貼近您感受的選項，讓我們為您量身打造。</p>
+          <h2 class="q-title">使用對象與情境</h2>
+          <p class="q-hint">這瓶精油將會陪伴誰，在什麼樣的時刻？</p>
 
-          <!-- Q3: Fragrance type -->
+          <!-- Q1: Self or Gift -->
           <div class="input-group">
-            <label class="input-label">您喜歡哪類香調？</label>
-            <div class="choice-grid">
+            <label class="input-label">你是自用或送人？</label>
+            <div class="choice-grid two-col">
               <label class="choice-label">
-                <input type="radio" name="fragranceType" value="花香" required />
+                <input type="radio" name="recipient" value="自用" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="flower-2"></i></span>
-                  <span class="choice-card__text">花香</span>
+                  <span class="choice-card__icon"><i data-lucide="user"></i></span>
+                  <span class="choice-card__text">自用</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="fragranceType" value="草本" />
+                <input type="radio" name="recipient" value="送人" />
                 <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="sprout"></i></span>
-                  <span class="choice-card__text">草本</span>
-                </div>
-              </label>
-              <label class="choice-label">
-                <input type="radio" name="fragranceType" value="木質" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="tree-pine"></i></span>
-                  <span class="choice-card__text">木質</span>
-                </div>
-              </label>
-              <label class="choice-label">
-                <input type="radio" name="fragranceType" value="土壤" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="mountain"></i></span>
-                  <span class="choice-card__text">土壤</span>
-                </div>
-              </label>
-              <label class="choice-label">
-                <input type="radio" name="fragranceType" value="果香" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="citrus"></i></span>
-                  <span class="choice-card__text">果香</span>
+                  <span class="choice-card__icon"><i data-lucide="gift"></i></span>
+                  <span class="choice-card__text">送人</span>
                 </div>
               </label>
             </div>
-            <span class="field-error" id="fragErr">請選擇香調</span>
+            <span class="field-error" id="recipientErr">請選擇自用或送人</span>
           </div>
 
-          <!-- Q4: Purpose -->
-          <div class="input-group">
-            <label class="input-label">您的使用目的</label>
-            <div class="choice-grid one-col">
-              <label class="choice-label">
-                <input type="radio" name="purpose" value="調理身體" required />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="heart-pulse"></i></span>
-                  <span class="choice-card__text">調理身體</span>
-                </div>
-              </label>
-              <label class="choice-label">
-                <input type="radio" name="purpose" value="調節情緒" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="brain"></i></span>
-                  <span class="choice-card__text">調節情緒</span>
-                </div>
-              </label>
-              <label class="choice-label">
-                <input type="radio" name="purpose" value="單純享受薰香" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="sparkles"></i></span>
-                  <span class="choice-card__text">單純享受薰香</span>
-                </div>
-              </label>
-            </div>
-            <span class="field-error" id="purposeErr">請選擇使用目的</span>
+          <!-- Q2: Usage Context -->
+          <div class="input-group" style="margin-top: 32px;">
+            <label class="input-label">什麼情境會用這支精油？ (可多選)</label>
+            <label class="choice-label"><input type="checkbox" name="context" value="派對" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="music"></i></span><span
+                  class="choice-card__text">派對</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="婚禮" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="heart"></i></span><span
+                  class="choice-card__text">婚禮</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="下午茶會" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="coffee"></i></span><span
+                  class="choice-card__text">下午茶會</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="瑜伽" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="activity"></i></span><span
+                  class="choice-card__text">瑜伽</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="會議" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="briefcase"></i></span><span
+                  class="choice-card__text">會議</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="開車駕駛" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="car"></i></span><span
+                  class="choice-card__text">開車駕駛</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="喪事" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="feather"></i></span><span
+                  class="choice-card__text">喪事</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="期待浪漫之夜的寢室" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="moon"></i></span><span
+                  class="choice-card__text" style="font-size: 13px;">浪漫之夜的寢室</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="迷失與自我懷疑時" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="compass"></i></span><span
+                  class="choice-card__text" style="font-size: 13px;">迷失與自我懷疑時</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="按摩" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="hand"></i></span><span
+                  class="choice-card__text">按摩</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="失眠" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="bed"></i></span><span
+                  class="choice-card__text">失眠</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="焦慮" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="alert-circle"></i></span><span
+                  class="choice-card__text">焦慮</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="壓力" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="zap"></i></span><span
+                  class="choice-card__text">壓力</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="悲痛" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="cloud-rain"></i></span><span
+                  class="choice-card__text">悲痛</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="想哭哭不出來" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="droplets"></i></span><span
+                  class="choice-card__text" style="font-size: 13px;">想哭哭不出來</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="忐忑害怕" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="alert-triangle"></i></span><span
+                  class="choice-card__text">忐忑害怕</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="生氣" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="flame"></i></span><span
+                  class="choice-card__text">生氣</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="開心" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="smile"></i></span><span
+                  class="choice-card__text">開心</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="幸福" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="sun"></i></span><span
+                  class="choice-card__text">幸福</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="感動" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="sparkles"></i></span><span
+                  class="choice-card__text">感動</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="感受愛" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="heart-handshake"></i></span><span
+                  class="choice-card__text">感受愛</span></div>
+            </label>
+            <label class="choice-label"><input type="checkbox" name="context" value="放下" />
+              <div class="choice-card"><span class="choice-card__icon"><i data-lucide="leaf"></i></span><span
+                  class="choice-card__text">放下</span></div>
+            </label>
           </div>
+          <span class="field-error" id="contextErr">請至少選擇一個情境</span>
 
           <div class="btn-row">
             <button type="button" class="btn btn-ghost" onclick="goPrev(1)">
-              <span class="arrow-left">←</span> 返回
+              <span class="arrow arrow-left">←</span> <span class="btn-text">返回</span>
             </button>
-            <button type="button" class="btn btn-primary" onclick="goNext(1)">
+            <button type="button" class="btn btn-primary" id="next1" onclick="goNext(1)">
               <span class="btn-text">繼續 <span class="arrow">→</span></span>
             </button>
           </div>
         </div>
 
-        <!-- ═══ PANEL 3 – Usage & Recipient ═══ -->
+        <!-- ═══ PANEL 3 – Fragrance Preferences ═══ -->
         <div class="form-panel" id="panel2">
           <p class="q-number">問卷 · 三</p>
-          <h2 class="q-title">使用方式與對象</h2>
-          <p class="q-hint">讓您的精油香氣在最合適的場景中綻放光芒。</p>
+          <h2 class="q-title">探索香氣偏好</h2>
+          <p class="q-hint">哪些氣味能觸動您的靈魂深處？</p>
 
-          <!-- Q5: Usage method -->
+          <!-- Q3: Plant Scent Preference -->
           <div class="input-group">
-            <label class="input-label">薰香的使用方式</label>
-            <div class="choice-grid one-col">
+            <label class="input-label">你喜歡的植物氣味？</label>
+            <div class="choice-grid">
               <label class="choice-label">
-                <input type="radio" name="usageMethod" value="空間擴香（車內/室內）" required />
+                <input type="radio" name="plantScent" value="花" required />
                 <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="home"></i></span>
-                  <span class="choice-card__text">空間擴香（車內 / 室內）</span>
+                  <span class="choice-card__icon"><i data-lucide="flower-2"></i></span>
+                  <span class="choice-card__text">花</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="usageMethod" value="直接塗抹於肌膚" />
+                <input type="radio" name="plantScent" value="草" />
                 <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="hand"></i></span>
-                  <span class="choice-card__text">直接塗抹於肌膚</span>
+                  <span class="choice-card__icon"><i data-lucide="sprout"></i></span>
+                  <span class="choice-card__text">草</span>
+                </div>
+              </label>
+              <label class="choice-label">
+                <input type="radio" name="plantScent" value="木" />
+                <div class="choice-card">
+                  <span class="choice-card__icon"><i data-lucide="tree-pine"></i></span>
+                  <span class="choice-card__text">木</span>
+                </div>
+              </label>
+              <label class="choice-label">
+                <input type="radio" name="plantScent" value="綠葉" />
+                <div class="choice-card">
+                  <span class="choice-card__icon"><i data-lucide="leaf"></i></span>
+                  <span class="choice-card__text">綠葉</span>
+                </div>
+              </label>
+              <label class="choice-label">
+                <input type="radio" name="plantScent" value="水果" />
+                <div class="choice-card">
+                  <span class="choice-card__icon"><i data-lucide="citrus"></i></span>
+                  <span class="choice-card__text">水果</span>
                 </div>
               </label>
             </div>
-            <span class="field-error" id="usageErr">請選擇使用方式</span>
+            <span class="field-error" id="plantScentErr">請選擇一個喜歡的植物氣味</span>
           </div>
 
-          <!-- Q6: Recipient -->
-          <div class="input-group">
-            <label class="input-label">這份薰香主要是準備給誰的呢？</label>
-            <div class="choice-grid one-col">
-              <label class="choice-label">
-                <input type="radio" name="recipient" value="給辛苦的自己（自用）" required />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="heart"></i></span>
-                  <span class="choice-card__text">給辛苦的自己（自用）</span>
-                </div>
+          <!-- Q4: Scent Impression -->
+          <div class="input-group" style="margin-top: 32px;">
+            <label class="input-label">你喜歡的香氣印象？ (可多選)</label>
+            <div class="choice-grid two-col" id="impressionGrid">
+              <label class="choice-label"><input type="checkbox" name="impression" value="溫暖" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="sun"></i></span><span
+                    class="choice-card__text">溫暖</span></div>
               </label>
-              <label class="choice-label">
-                <input type="radio" name="recipient" value="給心儀或重要的人（送禮）" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="gift"></i></span>
-                  <span class="choice-card__text">給心儀或重要的人（送禮）</span>
-                </div>
+              <label class="choice-label"><input type="checkbox" name="impression" value="甜美" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="candy"></i></span><span
+                    class="choice-card__text">甜美</span></div>
               </label>
-              <label class="choice-label">
-                <input type="radio" name="recipient" value="與家人/室友共同享有" />
-                <div class="choice-card">
-                  <span class="choice-card__icon"><i data-lucide="users"></i></span>
-                  <span class="choice-card__text">與家人 / 室友共同享有</span>
-                </div>
+              <label class="choice-label"><input type="checkbox" name="impression" value="木質" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="tree-pine"></i></span><span
+                    class="choice-card__text">木質</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="優雅" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="crown"></i></span><span
+                    class="choice-card__text">優雅</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="沉穩" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="anchor"></i></span><span
+                    class="choice-card__text">沉穩</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="清爽" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="wind"></i></span><span
+                    class="choice-card__text">清爽</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="奢華" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="gem"></i></span><span
+                    class="choice-card__text">奢華</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="果香" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="citrus"></i></span><span
+                    class="choice-card__text">果香</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="花香" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="flower-2"></i></span><span
+                    class="choice-card__text">花香</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="柔和" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="feather"></i></span><span
+                    class="choice-card__text">柔和</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="impression" value="辛辣" />
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="flame"></i></span><span
+                    class="choice-card__text">辛辣</span></div>
               </label>
             </div>
-            <span class="field-error" id="recipientErr">請選擇對象</span>
+            <span class="field-error" id="impressionErr">請至少選擇一個香氣印象</span>
           </div>
 
           <div class="btn-row">
             <button type="button" class="btn btn-ghost" onclick="goPrev(2)">
-              <span class="arrow-left">←</span> 返回
+              <span class="arrow arrow-left">←</span> <span class="btn-text">返回</span>
             </button>
-            <button type="button" class="btn btn-primary" onclick="goNext(2)">
+            <button type="button" class="btn btn-primary" id="next2" onclick="goNext(2)">
               <span class="btn-text">繼續 <span class="arrow">→</span></span>
             </button>
           </div>
         </div>
 
-        <!-- ═══ PANEL 4 – Email & Submit ═══ -->
+        <!-- ═══ PANEL 4 – Goals, Advanced Selection & Email ═══ -->
         <div class="form-panel" id="panel3">
           <p class="q-number">問卷 · 四</p>
-          <h2 class="q-title">最後一步：您的電郵</h2>
-          <p class="q-hint">我們將把您的專屬星座香氣分析結果直接送到您的信箱。</p>
+          <h2 class="q-title">專屬配方與聯絡資訊</h2>
+          <p class="q-hint">最後的細節，成就最完美的香氣。</p>
 
-          <div class="note-box">
+          <!-- Q10: Improvement Goals -->
+          <div class="input-group">
+            <label class="input-label">你想要用這精油改善什麼狀況？ (可多選，非必填)</label>
+            <p style="font-size:12px; color:var(--stone); margin-bottom:12px; margin-top:-6px;">
+              *如沒有，單純喜歡香氣和精油的寓意，則無需填。</p>
+            <div class="choice-grid two-col" id="goalsGrid">
+              <label class="choice-label"><input type="checkbox" name="goals" value="放鬆" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">放鬆</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="改善睡眠" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">改善睡眠</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="穩定心情" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">穩定心情</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="緩解焦慮" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">緩解焦慮</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="提升正能量" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">提升正能量</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="吸引人" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">吸引人</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="舒緩咳嗽" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">舒緩咳嗽</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="消除疲勞" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">消除疲勞</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="goals" value="提神" />
+                <div class="choice-card"><span class="choice-card__icon"><i
+                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">提神</span></div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q11: Select 3 Specific Scents -->
+          <div class="input-group" style="margin-top: 32px;">
+            <label class="input-label">你喜歡哪一種植物香氣？ <span style="color:#c0604a;">(限選 3 種)</span> <span id="scentCount"
+                style="float:right; font-weight:normal; color:var(--stone);">0/3</span></label>
+            <div class="choice-grid two-col" id="specificScentsGrid">
+              <!-- 31 Scents -->
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Palo Santo" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">聖木 (Palo Santo)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Ho Wood" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">芳樟 (Ho Wood)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Lavender" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">薰衣草 (Lavender)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Balsam Fir" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">香脂冷杉 (Balsam Fir)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Spruce Black" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">黑雲杉 (Spruce Black)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Rosemary" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">迷迭香 (Rosemary)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Geranium" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">天竺葵 (Geranium)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Lime" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">萊姆 (Lime)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Blue Cypress" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">藍絲柏 (Blue Cypress)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Sweet Orange" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">甜橙 (Sweet Orange)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Bergamot" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">佛手柑 (Bergamot)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Cypress" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">絲柏 (Cypress)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Frankincense" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">乳香 (Frankincense)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Ylang Ylang" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">依蘭依蘭 (Ylang Ylang)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Vanilla Botan Extract" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">香草萃取 (Vanilla Extract)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Cedarwood" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">雪松 (Cedarwood)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Sandalwood" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">檀香 (Sandalwood)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Agarwood" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">沉香 (Agarwood)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Nutmeg" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">肉豆蔻 (Nutmeg)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Thyme" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">百里香 (Thyme)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Clary Sage" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">快樂鼠尾草 (Clary Sage)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Clove Bud" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">丁香花苞 (Clove Bud)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Black Pepper" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">黑胡椒 (Black Pepper)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Vetiver" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">岩蘭草 (Vetiver)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Grapefruits" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">葡萄柚 (Grapefruits)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Palmarosa" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">玫瑰草 (Palmarosa)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Patchouli" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">廣藿香 (Patchouli)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Green Mandarin" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">青橘 (Green Mandarin)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Benzoin" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">安息香 (Benzoin)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Lemon" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">檸檬 (Lemon)</span></div>
+              </label>
+              <label class="choice-label"><input type="checkbox" name="specificScents" value="Basil" />
+                <div class="choice-card" style="padding:10px 14px;"><span class="choice-card__text"
+                    style="font-size:12px;">羅勒 (Basil)</span></div>
+              </label>
+            </div>
+            <span class="field-error" id="specificScentsErr">請選擇 3 種植物香氣</span>
+          </div>
+
+          <div class="note-box" style="margin-top: 32px; padding: 10px 16px;">
             <i data-lucide="sprout"
               style="width:16px;height:16px;stroke:#b8976e;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-right:4px;"></i>
             您的資料僅用於提供個人化香氣建議，我們絕不與第三方共享。
@@ -1032,9 +1376,9 @@
             <span class="field-error" id="emailErr">請輸入有效的電子郵件地址</span>
           </div>
 
-          <div class="btn-row">
+          <div class="btn-row" style="margin-top: 40px;">
             <button type="button" class="btn btn-ghost" onclick="goPrev(3)">
-              <span class="arrow-left">←</span> 返回
+              <span class="arrow arrow-left">←</span> <span class="btn-text">返回</span>
             </button>
             <button type="submit" class="btn btn-primary" id="submitBtn">
               <span class="btn-text">提交分析 ✦</span>
@@ -1126,7 +1470,7 @@
       });
       currentPanel = idx;
       updateProgress(idx);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
 
     function updateProgress(idx) {
@@ -1140,51 +1484,144 @@
       document.getElementById('stepLabel').textContent = labels[idx];
     }
 
+    /* ─── Field Interactions ─── */
+    // Auto-calculate Age and Zodiac
+    const birthYear = document.getElementById('birthYear');
+    const birthMonth = document.getElementById('birthMonth');
+    const birthDay = document.getElementById('birthDay');
+
+    function autoCalcAgeZodiac() {
+      const y = parseInt(birthYear.value);
+      const m = parseInt(birthMonth.value);
+      const d = parseInt(birthDay.value);
+
+      if (y && m && d) {
+        // Calculate Age
+        const today = new Date();
+        let age = today.getFullYear() - y;
+        if (today < new Date(today.getFullYear(), m - 1, d)) {
+          age--;
+        }
+        document.getElementById('age').value = age >= 0 ? age : 0;
+        toggleError('ageErr', false);
+        toggleInputError('age', false);
+
+        // Calculate Zodiac
+        let zodiac = "";
+        if ((m == 3 && d >= 21) || (m == 4 && d <= 19)) zodiac = "牡羊座 (Aries)";
+        else if ((m == 4 && d >= 20) || (m == 5 && d <= 20)) zodiac = "金牛座 (Taurus)";
+        else if ((m == 5 && d >= 21) || (m == 6 && d <= 20)) zodiac = "雙子座 (Gemini)";
+        else if ((m == 6 && d >= 21) || (m == 7 && d <= 22)) zodiac = "巨蟹座 (Cancer)";
+        else if ((m == 7 && d >= 23) || (m == 8 && d <= 22)) zodiac = "獅子座 (Leo)";
+        else if ((m == 8 && d >= 23) || (m == 9 && d <= 22)) zodiac = "處女座 (Virgo)";
+        else if ((m == 9 && d >= 23) || (m == 10 && d <= 22)) zodiac = "天秤座 (Libra)";
+        else if ((m == 10 && d >= 23) || (m == 11 && d <= 21)) zodiac = "天蠍座 (Scorpio)";
+        else if ((m == 11 && d >= 22) || (m == 12 && d <= 21)) zodiac = "射手座 (Sagittarius)";
+        else if ((m == 12 && d >= 22) || (m == 1 && d <= 19)) zodiac = "摩羯座 (Capricorn)";
+        else if ((m == 1 && d >= 20) || (m == 2 && d <= 18)) zodiac = "水瓶座 (Aquarius)";
+        else if ((m == 2 && d >= 19) || (m == 3 && d <= 20)) zodiac = "雙魚座 (Pisces)";
+
+        document.getElementById('zodiac').value = zodiac;
+        toggleError('zodiacErr', false);
+        toggleInputError('zodiac', false);
+      } else {
+        document.getElementById('age').value = "";
+        document.getElementById('zodiac').value = "";
+      }
+    }
+
+    [birthYear, birthMonth, birthDay].forEach(el => el.addEventListener('change', autoCalcAgeZodiac));
+
+    // Limit Specific Scents to max 3
+    const specificScentsCheckboxes = document.querySelectorAll('input[name="specificScents"]');
+    const scentCountText = document.getElementById('scentCount');
+    specificScentsCheckboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        const checked = document.querySelectorAll('input[name="specificScents"]:checked');
+        if (checked.length > 3) {
+          cb.checked = false; // Prevent checking more than 3
+        }
+        const updatedCheckedCount = document.querySelectorAll('input[name="specificScents"]:checked').length;
+        scentCountText.textContent = `${updatedCheckedCount}/3`;
+
+        if (updatedCheckedCount > 0) toggleError('specificScentsErr', false);
+      });
+    });
+
+    // Clear errors on change for multi-selects
+    document.querySelectorAll('input[name="context"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (document.querySelector('input[name="context"]:checked')) toggleError('contextErr', false);
+      });
+    });
+    document.querySelectorAll('input[name="impression"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (document.querySelector('input[name="impression"]:checked')) toggleError('impressionErr', false);
+      });
+    });
+
+
     /* ─── Validation ─── */
     function validatePanel(panelIdx) {
       let valid = true;
 
+      // Panel 1: Basic Info
       if (panelIdx === 0) {
         const name = document.getElementById('name').value.trim();
         const year = document.getElementById('birthYear').value;
         const month = document.getElementById('birthMonth').value;
         const day = document.getElementById('birthDay').value;
+        const zodiac = document.getElementById('zodiac').value;
+        const age = document.getElementById('age').value.trim();
+        const gender = document.querySelector('input[name="gender"]:checked');
 
         toggleError('nameErr', !name);
         toggleError('dateErr', !year || !month || !day);
+        toggleError('zodiacErr', !zodiac);
+        toggleError('ageErr', !age);
+        toggleError('genderErr', !gender);
+
         toggleInputError('name', !name);
+        toggleInputError('zodiac', !zodiac);
+        toggleInputError('age', !age);
 
-        if (!name || !year || !month || !day) valid = false;
+        if (!name || !year || !month || !day || !zodiac || !age || !gender) valid = false;
       }
 
+      // Panel 2: Recipient & Context
       if (panelIdx === 1) {
-        const frag = document.querySelector('input[name="fragranceType"]:checked');
-        const purpose = document.querySelector('input[name="purpose"]:checked');
-
-        toggleError('fragErr', !frag);
-        toggleError('purposeErr', !purpose);
-
-        if (!frag || !purpose) valid = false;
-      }
-
-      if (panelIdx === 2) {
-        const usage = document.querySelector('input[name="usageMethod"]:checked');
         const recipient = document.querySelector('input[name="recipient"]:checked');
+        const context = document.querySelectorAll('input[name="context"]:checked');
 
-        toggleError('usageErr', !usage);
         toggleError('recipientErr', !recipient);
+        toggleError('contextErr', context.length === 0);
 
-        if (!usage || !recipient) valid = false;
+        if (!recipient || context.length === 0) valid = false;
       }
 
+      // Panel 3: Fragrance Preferences
+      if (panelIdx === 2) {
+        const plantScent = document.querySelector('input[name="plantScent"]:checked');
+        const impression = document.querySelectorAll('input[name="impression"]:checked');
+
+        toggleError('plantScentErr', !plantScent);
+        toggleError('impressionErr', impression.length === 0);
+
+        if (!plantScent || impression.length === 0) valid = false;
+      }
+
+      // Panel 4: Goals, Advanced & Email
       if (panelIdx === 3) {
+        // Goals are optional
+        const specificScents = document.querySelectorAll('input[name="specificScents"]:checked');
         const email = document.getElementById('email').value.trim();
         const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+        toggleError('specificScentsErr', specificScents.length !== 3);
         toggleError('emailErr', !emailValid);
         toggleInputError('email', !emailValid);
 
-        if (!emailValid) valid = false;
+        if (specificScents.length !== 3 || !emailValid) valid = false;
       }
 
       return valid;
@@ -1215,13 +1652,21 @@
         document.getElementById('birthDay').value
       ].join('-');
 
+      // Multi-select extractors
+      const getValues = (name) => Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value).join(', ');
+
       const payload = {
-        '名字': document.getElementById('name').value.trim(),
-        '生日日期': birthday,
-        '你喜歡哪類香調': document.querySelector('input[name="fragranceType"]:checked').value,
-        '想要調理身體、調節情緒或單純享受薰香？': document.querySelector('input[name="purpose"]:checked').value,
-        '薰香的使用方式': document.querySelector('input[name="usageMethod"]:checked').value,
-        '這份薰香主要是準備給誰的呢？': document.querySelector('input[name="recipient"]:checked').value,
+        'Full Name (NRIC)': document.getElementById('name').value.trim(),
+        'Date of birth': birthday,
+        'Age': document.getElementById('age').value.trim(),
+        'Gender': document.querySelector('input[name="gender"]:checked').value,
+        'Zodiac sign': document.getElementById('zodiac').value,
+        '你是自用或送人？': document.querySelector('input[name="recipient"]:checked').value,
+        '什麼情境會用這支精油？': getValues('context'),
+        '你喜歡的植物氣味？': document.querySelector('input[name="plantScent"]:checked').value,
+        '你喜歡的香氣印象？': getValues('impression'),
+        '你想要用這精油改善什麼狀況？': getValues('goals') || '無', // Optional
+        '你喜歡哪一種植物香氣？': getValues('specificScents'),
         '電郵': document.getElementById('email').value.trim(),
         '提交時間': new Date().toISOString()
       };
@@ -1237,22 +1682,22 @@
         );
 
         // Show success regardless (webhook may return non-200 in test mode)
-        showSuccess(payload.name);
+        showSuccess(payload['Full Name (NRIC)']);
 
       } catch (err) {
         // Even on network error in test mode, show success (webhook-test may block CORS)
         console.warn('Webhook request issue (expected in test mode):', err);
-        showSuccess(payload.name);
+        showSuccess(payload['Full Name (NRIC)']);
       }
     });
 
     function showSuccess(name) {
       document.getElementById('scentForm').style.display = 'none';
-      dchocument.getElementById('stepLabel').style.display = 'none';
+      document.getElementById('stepLabel').style.display = 'none';
       document.getElementById('progressStrip').style.display = 'none';
 
       const screen = document.getElementById('successScreen');
-      document.getElementById('successName', name);
+
       // set name in title
       const nameSpan = document.getElementById('successName');
       nameSpan.textContent = name;
