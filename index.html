@@ -943,24 +943,24 @@
 
           <!-- Q1: Self or Gift -->
           <div class="input-group">
-            <label class="input-label">你是自用或送人？</label>
+            <label class="input-label">你是自用或送人？ (可多選)</label>
             <div class="choice-grid two-col">
               <label class="choice-label">
-                <input type="radio" name="recipient" value="自用" required />
+                <input type="checkbox" name="recipient" value="自用" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="user"></i></span>
                   <span class="choice-card__text">自用</span>
                 </div>
               </label>
               <label class="choice-label">
-                <input type="radio" name="recipient" value="送人" />
+                <input type="checkbox" name="recipient" value="送人" />
                 <div class="choice-card">
                   <span class="choice-card__icon"><i data-lucide="gift"></i></span>
                   <span class="choice-card__text">送人</span>
                 </div>
               </label>
             </div>
-            <span class="field-error" id="recipientErr">請選擇自用或送人</span>
+            <span class="field-error" id="recipientErr">請至少選擇一項</span>
           </div>
 
           <!-- Q2: Usage Context -->
@@ -1590,13 +1590,13 @@
 
       // Panel 2: Recipient & Context
       if (panelIdx === 1) {
-        const recipient = document.querySelector('input[name="recipient"]:checked');
+        const recipient = document.querySelectorAll('input[name="recipient"]:checked');
         const context = document.querySelectorAll('input[name="context"]:checked');
 
-        toggleError('recipientErr', !recipient);
+        toggleError('recipientErr', recipient.length === 0);
         toggleError('contextErr', context.length === 0);
 
-        if (!recipient || context.length === 0) valid = false;
+        if (recipient.length === 0 || context.length === 0) valid = false;
       }
 
       // Panel 3: Fragrance Preferences
@@ -1656,18 +1656,18 @@
       const getValues = (name) => Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value).join(', ');
 
       const payload = {
-        'Full Name (NRIC)': document.getElementById('name').value.trim(),
-        'Date of birth': birthday,
-        'Age': document.getElementById('age').value.trim(),
-        'Gender': document.querySelector('input[name="gender"]:checked').value,
-        'Zodiac sign': document.getElementById('zodiac').value,
-        '你是自用或送人？': document.querySelector('input[name="recipient"]:checked').value,
+        '真實姓名 (與身分證相同)': document.getElementById('name').value.trim(),
+        '生日日期': birthday,
+        '年齡': document.getElementById('age').value.trim(),
+        '性別': document.querySelector('input[name="gender"]:checked').value,
+        '星座': document.getElementById('zodiac').value,
+        '你是自用或送人？': getValues('recipient'),
         '什麼情境會用這支精油？': getValues('context'),
         '你喜歡的植物氣味？': document.querySelector('input[name="plantScent"]:checked').value,
         '你喜歡的香氣印象？': getValues('impression'),
         '你想要用這精油改善什麼狀況？': getValues('goals') || '無', // Optional
         '你喜歡哪一種植物香氣？': getValues('specificScents'),
-        '電郵': document.getElementById('email').value.trim(),
+        '電子郵件地址': document.getElementById('email').value.trim(),
         '提交時間': new Date().toISOString()
       };
 
