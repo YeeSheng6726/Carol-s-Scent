@@ -1191,40 +1191,40 @@
               *如沒有，單純喜歡香氣和精油的寓意，則無需填。</p>
             <div class="choice-grid two-col" id="goalsGrid">
               <label class="choice-label"><input type="checkbox" name="goals" value="放鬆" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">放鬆</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="waves"></i></span><span
+                    class="choice-card__text">放鬆</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="改善睡眠" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">改善睡眠</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="bed"></i></span><span
+                    class="choice-card__text">改善睡眠</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="穩定心情" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">穩定心情</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="heart-pulse"></i></span><span
+                    class="choice-card__text">穩定心情</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="緩解焦慮" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">緩解焦慮</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="shield"></i></span><span
+                    class="choice-card__text">緩解焦慮</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="提升正能量" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">提升正能量</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="sun"></i></span><span
+                    class="choice-card__text">提升正能量</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="吸引人" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">吸引人</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="sparkles"></i></span><span
+                    class="choice-card__text">吸引人</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="舒緩咳嗽" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">舒緩咳嗽</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="wind"></i></span><span
+                    class="choice-card__text">舒緩咳嗽</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="消除疲勞" />
                 <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">消除疲勞</span></div>
+                      data-lucide="battery-charging"></i></span><span class="choice-card__text">消除疲勞</span></div>
               </label>
               <label class="choice-label"><input type="checkbox" name="goals" value="提神" />
-                <div class="choice-card"><span class="choice-card__icon"><i
-                      data-lucide="check-circle-2"></i></span><span class="choice-card__text">提神</span></div>
+                <div class="choice-card"><span class="choice-card__icon"><i data-lucide="coffee"></i></span><span
+                    class="choice-card__text">提神</span></div>
               </label>
             </div>
           </div>
@@ -1470,7 +1470,7 @@
       });
       currentPanel = idx;
       updateProgress(idx);
-      window.scrollTo(0, 0);
+      document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function updateProgress(idx) {
