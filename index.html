@@ -1531,19 +1531,30 @@
 
     [birthYear, birthMonth, birthDay].forEach(el => el.addEventListener('change', autoCalcAgeZodiac));
 
-    // Limit Specific Scents to max 3
+    // Limit Specific Scents to max 3; "請系統推薦" is mutually exclusive with all others
     const specificScentsCheckboxes = document.querySelectorAll('input[name="specificScents"]');
     const scentCountText = document.getElementById('scentCount');
+    const systemRecommendCb = document.querySelector('input[name="specificScents"][value="請系統推薦"]');
     specificScentsCheckboxes.forEach(cb => {
       cb.addEventListener('change', () => {
-        const checked = document.querySelectorAll('input[name="specificScents"]:checked');
-        if (checked.length > 3) {
-          cb.checked = false; // Prevent checking more than 3
+        if (cb.value === '請系統推薦' && cb.checked) {
+          // Uncheck all other scent options
+          specificScentsCheckboxes.forEach(other => {
+            if (other !== cb) other.checked = false;
+          });
+          scentCountText.textContent = '✓';
+        } else {
+          // Uncheck "請系統推薦" when a real scent is selected
+          if (systemRecommendCb) systemRecommendCb.checked = false;
+          const checked = document.querySelectorAll('input[name="specificScents"]:checked');
+          if (checked.length > 3) {
+            cb.checked = false; // Prevent checking more than 3
+          }
+          const updatedCheckedCount = document.querySelectorAll('input[name="specificScents"]:checked').length;
+          scentCountText.textContent = `${updatedCheckedCount}/3`;
         }
-        const updatedCheckedCount = document.querySelectorAll('input[name="specificScents"]:checked').length;
-        scentCountText.textContent = `${updatedCheckedCount}/3`;
-
-        if (updatedCheckedCount > 0) toggleError('specificScentsErr', false);
+        const anyChecked = document.querySelectorAll('input[name="specificScents"]:checked').length > 0;
+        if (anyChecked) toggleError('specificScentsErr', false);
       });
     });
 
@@ -1613,14 +1624,16 @@
       if (panelIdx === 3) {
         // Goals are optional
         const specificScents = document.querySelectorAll('input[name="specificScents"]:checked');
+        const systemRecommendSelected = document.querySelector('input[name="specificScents"][value="請系統推薦"]:checked');
+        const scentValid = systemRecommendSelected || specificScents.length === 3;
         const email = document.getElementById('email').value.trim();
         const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-        toggleError('specificScentsErr', specificScents.length !== 3);
+        toggleError('specificScentsErr', !scentValid);
         toggleError('emailErr', !emailValid);
         toggleInputError('email', !emailValid);
 
-        if (specificScents.length !== 3 || !emailValid) valid = false;
+        if (!scentValid || !emailValid) valid = false;
       }
 
       return valid;
